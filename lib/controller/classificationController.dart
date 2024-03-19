@@ -24,11 +24,10 @@ class ClassificationController extends GetxController {
     isLoading.value = true;
     var result = await Services().detectAnimal(imageFile);
     log(result.toString());
-    if(result["predictions"].isNotEmpty) {
+    if (result["predictions"].isNotEmpty) {
       if (result["predictions"][0]["class"] == "Cow-Goat") {
         getPredictedData(imageFile);
-      }
-      else {
+      } else {
         Get.snackbar('Error', "Choose a valid image",
             backgroundColor: Colors.red.withOpacity(0.8),
             snackPosition: SnackPosition.BOTTOM,
@@ -36,27 +35,28 @@ class ClassificationController extends GetxController {
             colorText: Colors.black);
         isLoading.value = false;
       }
-    }
-    else {
-      Get.snackbar('Error', "Choose a valid image",
-          backgroundColor: Colors.red.withOpacity(0.8),
-          snackPosition: SnackPosition.BOTTOM,
-          duration: Duration(seconds: 5),
-          colorText: Colors.black);
+    } else {
+      if (result["predictions"].toString() == "[]") {
+        await getPredictedData(imageFile);
+      } else {
+        Get.snackbar('Error', "Choose a valid image",
+            backgroundColor: Colors.red.withOpacity(0.8),
+            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 5),
+            colorText: Colors.black);
+      }
       isLoading.value = false;
     }
-
-
   }
 
   getPredictedData(File imageFile) async {
-    weightAndConfidence.value={};
-    breedAndConfidence.value={};
-    genderAndConfidence.value={};
+    weightAndConfidence.value = {};
+    breedAndConfidence.value = {};
+    genderAndConfidence.value = {};
     // maxBreedKey.value ="";
-    maxBreedKey.value ="";
-    maxWeightKey.value ="";
-    maxGenderKey.value ="";
+    maxBreedKey.value = "";
+    maxWeightKey.value = "";
+    maxGenderKey.value = "";
     maxBreed.value = double.negativeInfinity;
     maxGender.value = double.negativeInfinity;
     maxWeight.value = double.negativeInfinity;
@@ -64,23 +64,48 @@ class ClassificationController extends GetxController {
     // genderAndConfidence.clear();
     isLoading.value = true;
     var result = await Services().makeRequest(imageFile);
+
     /// ispr kaam krenge
-    // var weightResult = await Services().makeWeightRequest(imageFile);
+    var weightResult = await Services().makeWeightRequest(imageFile);
     Map<String, dynamic> predictions = result['predictions'];
+    Map<String, dynamic> weightPredictions = weightResult['predictions'];
+
+
+
     predictions.forEach((key, value) {
-      if (key.contains('Kgs')) {
+      // if (key.contains('Kgs')) {
+      //   var confidence = value['confidence'];
+      //   weightAndConfidence[key] = confidence;
+      // }
+      // else {
+      if (key == "Male" || key == "Female") {
         var confidence = value['confidence'];
-        weightAndConfidence[key] = confidence;
-      } else {
-        if (key == "Male" || key == "Female") {
-          var confidence = value['confidence'];
-          // breedAndConfidence.removeWhere((key, value) => key == "Male" || key == "Female");
-          genderAndConfidence[key] = confidence;
-        } else {
-          var confidence = value['confidence'];
-          breedAndConfidence[key] = confidence;
-        }
+        // breedAndConfidence.removeWhere((key, value) => key == "Male" || key == "Female");
+        genderAndConfidence[key] = confidence;
+      } else if (!key.contains('Kgs')) {
+        var confidence = value['confidence'];
+        breedAndConfidence[key] = confidence;
       }
+      // }
+    });
+    weightPredictions.forEach((key, value) {
+      if (key.contains('Kg')) {
+        var confidence = value['confidence'];
+        log("CONFIDENCE   "+confidence.toString());
+
+        weightAndConfidence[key] = confidence;
+        log("-------------------" + weightAndConfidence[key].toString());
+      }
+      // else {
+      // if (key == "Male" || key == "Female") {
+      //   var confidence = value['confidence'];
+      //   // breedAndConfidence.removeWhere((key, value) => key == "Male" || key == "Female");
+      //   genderAndConfidence[key] = confidence;
+      // } else {
+      //   var confidence = value['confidence'];
+      //   breedAndConfidence[key] = confidence;
+      // }
+      // }
     });
 
     breedAndConfidence.forEach((key, value) {
@@ -108,7 +133,6 @@ class ClassificationController extends GetxController {
     log("----------------------------------------------------------");
     log("max gender" + maxGender.toString() + maxGenderKey.toString());
 
-
     /// This is done to handle that the uploaded image should be valid
     // if (maxBreed < 0.3 || maxGender < 0.3) {
     //   Get.snackbar('Error', "Choose a valid image",
@@ -117,9 +141,9 @@ class ClassificationController extends GetxController {
     //       duration: Duration(seconds: 5),
     //       colorText: Colors.black);
     // } else {
-      Get.to(() => ResultScreen(
-            imageFile: imageFile,
-          ));
+    Get.to(() => ResultScreen(
+          imageFile: imageFile,
+        ));
     // }
 
     // log("----------------------------------------------------------");

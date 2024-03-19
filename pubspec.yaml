@@ -40,6 +40,7 @@ dependencies:
   flutter_screenutil: ^5.9.0
   mime_type: ^1.0.0
   http_parser: ^4.0.2
+  lottie: ^3.1.0
 
 
 dev_dependencies:
@@ -65,6 +66,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/json/
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
@@ -80,6 +83,25 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: Truculenta
+      fonts:
+        #        - asset: assets/fonts/MartelSans/MartelSans-ExtraLightItalic.ttf
+        #          weight: 100
+        - asset: assets/fonts/Truculenta-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Truculenta-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Truculenta-Regular.ttf
+          weight: 400
+        #        - asset: assets/fonts/MartelSans/MartelSans-Medium.ttf
+        #          weight: 600
+        - asset: assets/fonts/Truculenta-SemiBold.ttf
+          weight: 700
+        - asset: assets/fonts/Truculenta-Bold.ttf
+          weight: 800
+        - asset: assets/fonts/Truculenta-ExtraBold.ttf
+          weight: 900
   # fonts:
   #   - family: Schyler
   #     fonts:

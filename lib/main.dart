@@ -21,10 +21,12 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              fontFamily: 'Truculenta',
+
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreenAccent),
               useMaterial3: true,
             ),
-            home: const MainScreen(title: 'Breed Coster'),
+            home: const MainScreen(title: 'Farm Animal Breed Detector'),
           );
         }
     );
