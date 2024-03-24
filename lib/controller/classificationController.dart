@@ -36,15 +36,15 @@ class ClassificationController extends GetxController {
         isLoading.value = false;
       }
     } else {
-      if (result["predictions"].toString() == "[]") {
-        await getPredictedData(imageFile);
-      } else {
+      // if (result["predictions"].toString() == "[]") {
+      //   await getPredictedData(imageFile);
+      // } else {
         Get.snackbar('Error', "Choose a valid image",
             backgroundColor: Colors.red.withOpacity(0.8),
             snackPosition: SnackPosition.BOTTOM,
             duration: Duration(seconds: 5),
             colorText: Colors.black);
-      }
+      // }
       isLoading.value = false;
     }
   }

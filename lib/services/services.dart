@@ -12,7 +12,7 @@ class Services{
   detectAnimal(File imageFile) async {
     String apiUrl =
         // 'https://classify.roboflow.com/breed-gender-detection/2';
-    'https://detect.roboflow.com/animal-detection-88yph/1';
+    'https://detect.roboflow.com/animal-detection-88yph/2';
     String apiKey =
         // 'ch1Sixwf6LzttzG4bbp0';
     'nseADphIznUZ8K0xsNoU';
